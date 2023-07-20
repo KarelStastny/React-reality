@@ -10,7 +10,7 @@ const CountryDropdown = () => {
   const { country, setCountry, countries } = useContext(HouseContext)
   useContext(HouseContext)
 
-  console.log(countries);
+
   
   const [isOpen, setIsOpen] = useState(false)
 
@@ -29,10 +29,15 @@ const CountryDropdown = () => {
           )
         }
     </Menu.Button>
-      <Menu.Items>
+      <Menu.Items className="dropdown-menu">
         {countries.map((country,index)=>{
           return(
-            <Menu.Item className="cursor-pointer hover: text-violet-700 transition" as="li" key={index}>
+            <Menu.Item 
+              className="cursor-pointer hover: text-violet-700 transition" 
+              as="li" 
+              key={index}
+              onClick={() => setCountry(country)}
+              >
               {country}
             </Menu.Item>
           )
