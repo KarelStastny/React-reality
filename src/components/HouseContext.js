@@ -44,6 +44,8 @@ const HouseContextProvider = ({children}) => {
   }, [])
 
   const handleClick = () => {
+    // set loading
+    setLoading(true)
 
     // Filter items
     const isDefault = (str)=> {
@@ -63,8 +65,55 @@ const HouseContextProvider = ({children}) => {
         return house
       }
 
+      // If values default
+      if( isDefault(country) && isDefault(property) && isDefault(price)){
+        return house
+      }
+
+
+      // if  country is not default
+      if(!isDefault(country) && isDefault(property) && isDefault(price)){
+        return house.country === country
+      }
+
+      // if property is not default
+      if(!isDefault(property) && isDefault(country) && isDefault(price)){
+        return house.type === property
+      }
+
+      // if price is not default 
+      if(!isDefault(price) && isDefault(country) && isDefault(property)){
+         if(housePrice >= minPrice && housePrice <= maxPrice){
+          return house
+         }
+      }
+
+      // if country  & property is not default
+      if(!isDefault(country) && !isDefault(property) && isDefault(price)){
+        return house.country == country && house.type === property
+      }
+
+      // if country and price is not default
+
+      if(!isDefault(country) && isDefault(property) && !isDefault(price)){
+        if(housePrice >= minPrice && housePrice <= maxPrice){
+          return house.country === country
+        }
+      }
+
+      // property and price is nod default
+      if(!isDefault(country) && !isDefault(property)&& !isDefault(price)){
+        if(housePrice >= minPrice && housePrice <= maxPrice){
+          return house.type === property
+        }
+      }
     })
-    console.log(newHouses); 
+
+    setTimeout(() => {
+      return newHouses.length < 1 ? setHouses([]) : setHouses(newHouses),
+      setLoading(false)
+    }, 1000)
+    
   }
     
 
@@ -83,6 +132,7 @@ const HouseContextProvider = ({children}) => {
     houses,
     loading,
     handleClick,
+    loading,
 
   }}>{children}</HouseContext.Provider>;
 };
